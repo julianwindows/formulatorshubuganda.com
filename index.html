@@ -719,41 +719,23 @@
       overflow-y: auto;
     }
     #shop-page.open { display: block; }
+    /* Shop page nav — mirrors main #navbar exactly */
     .shop-page-nav {
       position: sticky; top: 0; z-index: 10;
-      background: rgba(26,60,42,.97);
+      background: rgba(26,60,42,.96);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(201,168,76,.18);
-      padding: 0 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 68px;
-      gap: 1rem;
+      transition: var(--transition);
     }
-    .shop-page-nav .logo { display: flex; align-items: center; gap: .75rem; flex-shrink: 0; }
-    .shop-nav-links {
-      display: flex; align-items: center; gap: 1.5rem; flex: 1; justify-content: center;
+    .shop-page-nav .nav-inner { height: 72px; }
+    /* Dropdowns inside shop nav need higher z-index relative to the overlay */
+    .shop-page-nav .dropdown { z-index: 200; }
+    /* On mobile, hide desktop links; show hamburger — same as main nav */
+    @media (max-width: 768px) {
+      .shop-page-nav .nav-links,
+      .shop-page-nav .nav-cta { display: none; }
+      .shop-page-nav .shop-hamburger { display: flex; }
     }
-    .shop-nav-links a {
-      color: rgba(255,255,255,.78);
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600; font-size: .82rem;
-      letter-spacing: .04em; text-transform: uppercase;
-      cursor: pointer;
-      transition: color var(--transition);
-      white-space: nowrap;
-    }
-    .shop-nav-links a:hover { color: var(--gold); }
-    .shop-page-back {
-      display: inline-flex; align-items: center; gap: .5rem;
-      color: rgba(255,255,255,.8);
-      font-family: 'Montserrat', sans-serif; font-weight: 700;
-      font-size: .85rem; letter-spacing: .05em; text-transform: uppercase;
-      background: rgba(201,168,76,.15); border: 1px solid rgba(201,168,76,.3);
-      border-radius: 50px; padding: .45rem 1.1rem;
-      cursor: pointer; transition: var(--transition); flex-shrink: 0;
-    }
-    .shop-page-back:hover { background: var(--gold); color: var(--green); }
-    @media (max-width: 768px) { .shop-nav-links { display: none; } }
     #shop { padding: 100px 0; background: var(--ivory-dark); }
     .shop-tabs {
       display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 2.8rem;
@@ -1044,7 +1026,7 @@
       <!-- Image -->
       <div class="about-img-wrap fade-up">
         <img
-          src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=900&auto=format&fit=crop&q=80"
+          src="assets/formulator1.png"
           alt="Lab scientist at work"
         />
         <div class="about-badge-img">
@@ -1114,8 +1096,8 @@
       <div class="service-card fade-up delay-3"
            data-modal="modal-pkg">
         <div class="service-icon"><i class="fas fa-tint"></i></div>
-        <h3>Packaging Design</h3>
-        <p>Premium packaging concepts and structural design that communicate your brand story at first glance.</p>
+        <h3>Label Solutions</h3>
+        <p>Ready to brand skincare products with small batch manufacturing tailored to local and regional markets.</p>
         <div class="learn-more">Learn More <i class="fas fa-arrow-right"></i></div>
       </div>
       <!-- 4 -->
@@ -1134,26 +1116,82 @@
      SHOP PAGE (independent overlay page)
 ============================================================ -->
 <div id="shop-page">
-  <!-- Shop page sticky nav -->
-  <div class="shop-page-nav">
-    <a href="javascript:void(0)" onclick="closeShopPage()" class="logo">
-      <div class="logo-icon"><i class="fas fa-flask"></i></div>
-      <div class="logo-text">
-        <strong>Formulators Hub</strong>
-        <span>Uganda · Cosmetic Science</span>
+  <!-- Shop page sticky nav — exact mirror of main navbar -->
+  <nav class="shop-page-nav">
+    <div class="container">
+      <div class="nav-inner">
+        <!-- Logo — clicking goes back to home -->
+        <a href="javascript:void(0)" onclick="closeShopPage()" class="logo">
+          <div class="logo-icon"><i class="fas fa-flask"></i></div>
+          <div class="logo-text">
+            <strong>Formulators Hub</strong>
+            <span>Uganda · Cosmetic Science</span>
+          </div>
+        </a>
+
+        <!-- Desktop nav links -->
+        <div class="nav-links">
+          <a href="javascript:void(0)" onclick="shopNav('#hero')">Home</a>
+
+          <!-- Company dropdown -->
+          <div class="nav-item">
+            <a href="javascript:void(0)" onclick="shopNav('#about')">Company <i class="fas fa-chevron-down caret"></i></a>
+            <div class="dropdown">
+              <a href="javascript:void(0)" onclick="shopNav('#about')"><i class="fas fa-info-circle"></i> About Us</a>
+              <a href="javascript:void(0)" onclick="shopNav('#testimonials')"><i class="fas fa-star"></i> Testimonials</a>
+            </div>
+          </div>
+
+          <!-- Services dropdown -->
+          <div class="nav-item">
+            <a href="javascript:void(0)" onclick="shopNav('#services')">Services <i class="fas fa-chevron-down caret"></i></a>
+            <div class="dropdown">
+              <a href="javascript:void(0)" onclick="shopNav('#services')"><i class="fas fa-flask"></i> Product Development</a>
+              <a href="javascript:void(0)" onclick="shopNav('#services')"><i class="fas fa-atom"></i> Brand Consultancy</a>
+              <a href="javascript:void(0)" onclick="shopNav('#services')"><i class="fas fa-tint"></i> Packaging Design</a>
+              <a href="javascript:void(0)" onclick="shopNav('#services')"><i class="fas fa-cogs"></i> Formulation Training</a>
+            </div>
+          </div>
+
+          <a href="javascript:void(0)" onclick="shopNav('#portfolio')">Portfolio</a>
+          <a href="javascript:void(0)" onclick="shopNav('#contact')">Contact</a>
+        </div>
+
+        <!-- CTA button -->
+        <a href="javascript:void(0)" onclick="shopNav('#contact')" class="btn btn-gold nav-cta" style="font-size:.82rem;padding:.6rem 1.4rem;">
+          <i class="fas fa-paper-plane"></i> Get in Touch
+        </a>
+
+        <!-- Hamburger -->
+        <button class="hamburger shop-hamburger" id="shopHamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
-    </a>
-    <nav class="shop-nav-links">
-      <a onclick="closeShopPage();setTimeout(()=>{document.querySelector('#hero').scrollIntoView({behavior:'smooth'})},120)">Home</a>
-      <a onclick="closeShopPage();setTimeout(()=>{document.querySelector('#about').scrollIntoView({behavior:'smooth'})},120)">About</a>
-      <a onclick="closeShopPage();setTimeout(()=>{document.querySelector('#services').scrollIntoView({behavior:'smooth'})},120)">Services</a>
-      <a onclick="closeShopPage();setTimeout(()=>{document.querySelector('#portfolio').scrollIntoView({behavior:'smooth'})},120)">Portfolio</a>
-      <a onclick="closeShopPage();setTimeout(()=>{document.querySelector('#contact').scrollIntoView({behavior:'smooth'})},120)">Contact</a>
-    </nav>
-    <button class="shop-page-back" onclick="closeShopPage()">
-      <i class="fas fa-arrow-left"></i> Back to Home
-    </button>
-  </div>
+
+      <!-- Mobile menu -->
+      <div class="mobile-menu" id="shopMobileMenu">
+        <a href="javascript:void(0)" class="mobile-link" onclick="shopNav('#hero')">Home</a>
+        <details class="mobile-group">
+          <summary>Company <i class="fas fa-chevron-down caret"></i></summary>
+          <div class="mobile-sub">
+            <a href="javascript:void(0)" class="mobile-link" onclick="shopNav('#about')">About Us</a>
+            <a href="javascript:void(0)" class="mobile-link" onclick="shopNav('#testimonials')">Testimonials</a>
+          </div>
+        </details>
+        <details class="mobile-group">
+          <summary>Services <i class="fas fa-chevron-down caret"></i></summary>
+          <div class="mobile-sub">
+            <a href="javascript:void(0)" class="mobile-link" onclick="shopNav('#services')">Product Development</a>
+            <a href="javascript:void(0)" class="mobile-link" onclick="shopNav('#services')">Brand Consultancy</a>
+            <a href="javascript:void(0)" class="mobile-link" onclick="shopNav('#services')">Packaging Design</a>
+            <a href="javascript:void(0)" class="mobile-link" onclick="shopNav('#services')">Formulation Training</a>
+          </div>
+        </details>
+        <a href="javascript:void(0)" class="mobile-link" onclick="shopNav('#portfolio')">Portfolio</a>
+        <a href="javascript:void(0)" class="mobile-link" onclick="shopNav('#contact')">Contact</a>
+      </div>
+    </div>
+  </nav>
 
 <section id="shop" style="padding-top:60px;">
   <div class="container">
@@ -1657,31 +1695,31 @@
 
     <div class="portfolio-grid" style="grid-template-columns: repeat(4,1fr); max-width:100%;">
       <div class="portfolio-item fade-up delay-1">
-        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=700&auto=format&fit=crop&q=80" alt="Radiance Skincare Brand"/>
+        <img src="assets/depig.png" alt="Radiance Skincare Brand"/>
         <div class="portfolio-caption">
-          <h4>Radiance by Amara</h4>
-          <span>Brightening Skincare Line · Kampala</span>
+          <h4>Beauty By Musie</h4>
+          <span>Depigmenting Cream · Kampala</span>
         </div>
       </div>
       <div class="portfolio-item fade-up delay-2">
-        <img src="https://images.unsplash.com/photo-1541643600914-78b084683702?w=700&auto=format&fit=crop&q=80" alt="Savanna Fragrance Brand"/>
+        <img src="assets/hserum.png" alt="Savanna Fragrance Brand"/>
         <div class="portfolio-caption">
-          <h4>Savanna Bloom</h4>
-          <span>Luxury Eau de Parfum · East Africa</span>
+          <h4>Beauty By Musie</h4>
+          <span>Hydrating Serum · Kampala</span>
         </div>
       </div>
       <div class="portfolio-item fade-up delay-3">
-        <img src="https://images.unsplash.com/photo-1559599101-f09722fb4948?w=700&auto=format&fit=crop&q=80" alt="NatureCurl Haircare Brand"/>
+        <img src="assets/essence.png" alt="NatureCurl Haircare Brand"/>
         <div class="portfolio-caption">
-          <h4>NatureCurl Co.</h4>
-          <span>Natural Haircare Range · Nairobi</span>
+          <h4>Beauty By Musie</h4>
+          <span>Essence Toner · Kampala</span>
         </div>
       </div>
       <div class="portfolio-item fade-up delay-4">
-        <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=700&auto=format&fit=crop&q=80" alt="PureGlow Brand"/>
+        <img src="assets/acw.jpg" alt="PureGlow Brand"/>
         <div class="portfolio-caption">
-          <h4>PureGlow Essentials</h4>
-          <span>Science-Backed Moisturisers · Uganda</span>
+          <h4>Beauty By Musie</h4>
+          <span>Anti Acne Face Wash · Kampala</span>
         </div>
       </div>
     </div>
@@ -1747,7 +1785,7 @@
             </p>
             <div class="testimonial-author">
               <img class="author-avatar"
-                   src="https://randomuser.me/api/portraits/women/44.jpg"
+                   src="assets/amara.png"
                    alt="Amara Nakato" />
               <div class="author-info">
                 <strong>Amara Nakato</strong>
@@ -1766,10 +1804,10 @@
             </p>
             <div class="testimonial-author">
               <img class="author-avatar"
-                   src="https://randomuser.me/api/portraits/men/32.jpg"
+                   src="assets/julian.jpeg"
                    alt="Brian Otieno" />
               <div class="author-info">
-                <strong>Brian Otieno</strong>
+                <strong>Julian Mwambusya</strong>
                 <span>Graduate Trainee & Entrepreneur, Nairobi</span>
                 <div class="stars">★★★★★</div>
               </div>
@@ -1785,7 +1823,7 @@
             </p>
             <div class="testimonial-author">
               <img class="author-avatar"
-                   src="https://randomuser.me/api/portraits/women/68.jpg"
+                   src="assets/fatuma.png"
                    alt="Dr Fatuma Ssebbi" />
               <div class="author-info">
                 <strong>Dr Fatuma Ssebbi</strong>
@@ -2036,17 +2074,17 @@
       <button class="modal-close" onclick="closeModal('modal-pkg')"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body">
-      <p>Great products deserve great packaging. We design primary and secondary packaging that captures your brand essence and meets international standards.</p>
+      <p>We provide turnkey skincare products ready to brand, helping you launch faster with formulations that meet international standards.</p>
       <ul class="modal-features">
-        <li><i class="fas fa-check"></i> Structural & graphic design for cosmetic packaging</li>
-        <li><i class="fas fa-check"></i> Label design including legal & INCI requirements</li>
-        <li><i class="fas fa-check"></i> Sustainable & eco-friendly materials sourcing</li>
-        <li><i class="fas fa-check"></i> MOQ negotiation with packaging suppliers</li>
-        <li><i class="fas fa-check"></i> Print-ready artwork & 3D mockups</li>
+        <li><i class="fas fa-check"></i> Ready‑made serums, creams, cleansers, and toners</li>
+        <li><i class="fas fa-check"></i> Ready made skincare formulations</li>
+        <li><i class="fas fa-check"></i> Label compliance including legal & INCI requirements</li>
+        <li><i class="fas fa-check"></i> MOQ negotiation with trusted skincare manufacturers</li>
+        <li><i class="fas fa-check"></i> Stability, safety, and efficacy testing support</li>
       </ul>
       <div style="margin-top:1.5rem">
         <a href="#contact" class="btn btn-gold" onclick="closeModal('modal-pkg')">
-          <i class="fas fa-paper-plane"></i> Get a Design Quote
+          <i class="fas fa-paper-plane"></i> Get a Private Label Quote
         </a>
       </div>
     </div>
@@ -2103,6 +2141,24 @@
     document.getElementById('shop-page').classList.remove('open');
     document.body.style.overflow = '';
   }
+  // Helper: close shop then scroll to a main-page section
+  function shopNav(selector) {
+    // Close mobile menu if open
+    document.getElementById('shopHamburger').classList.remove('open');
+    document.getElementById('shopMobileMenu').classList.remove('open');
+    closeShopPage();
+    setTimeout(() => {
+      const el = document.querySelector(selector);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 120);
+  }
+  // Shop page hamburger
+  const shopHamburger = document.getElementById('shopHamburger');
+  const shopMobileMenu = document.getElementById('shopMobileMenu');
+  shopHamburger.addEventListener('click', () => {
+    shopHamburger.classList.toggle('open');
+    shopMobileMenu.classList.toggle('open');
+  });
 
   /* ---- SHOP TABS ---- */
   document.querySelectorAll('.shop-tab').forEach(tab => {
