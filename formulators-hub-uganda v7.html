@@ -1,0 +1,2244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulators Hub Uganda | Innovating Skincare Formulation in Africa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES & RESET
+    ============================================================ */
+    :root {
+      --gold:       #C9A84C;
+      --gold-light: #E8C96A;
+      --gold-dark:  #A07830;
+      --green:      #1A3C2A;
+      --green-mid:  #2E5D40;
+      --green-light:#3D7A56;
+      --ivory:      #F9F5EC;
+      --ivory-dark: #EDE8DB;
+      --white:      #FFFFFF;
+      --text-dark:  #1A1A1A;
+      --text-mid:   #4A4A4A;
+      --text-light: #8A8A8A;
+      --shadow:     0 8px 32px rgba(26,60,42,.18);
+      --shadow-gold:0 4px 24px rgba(201,168,76,.25);
+      --radius:     12px;
+      --transition: .35s cubic-bezier(.4,0,.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--ivory);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+    h1,h2,h3,h4,h5 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+
+    /* ============================================================
+       MOLECULAR BACKGROUND PATTERN (SVG inline via CSS)
+    ============================================================ */
+    .mol-bg {
+      position: relative;
+      overflow: hidden;
+    }
+    .mol-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C9A84C' stroke-width='0.6' opacity='0.18'%3E%3Ccircle cx='30' cy='30' r='6'/%3E%3Ccircle cx='90' cy='30' r='6'/%3E%3Ccircle cx='60' cy='80' r='6'/%3E%3Ccircle cx='10' cy='90' r='4'/%3E%3Ccircle cx='110' cy='90' r='4'/%3E%3Cline x1='30' y1='30' x2='90' y2='30'/%3E%3Cline x1='30' y1='30' x2='60' y2='80'/%3E%3Cline x1='90' y1='30' x2='60' y2='80'/%3E%3Cline x1='10' y1='90' x2='60' y2='80'/%3E%3Cline x1='110' y1='90' x2='60' y2='80'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 120px 120px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .mol-bg > * { position: relative; z-index: 1; }
+
+    /* ============================================================
+       UTILITY
+    ============================================================ */
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 900;
+      color: var(--green);
+      margin-bottom: .4rem;
+    }
+    .section-title span { color: var(--gold); }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      margin-bottom: 3rem;
+      max-width: 560px;
+    }
+    .gold-line {
+      width: 56px; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 2px;
+      margin-bottom: 1.2rem;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .82rem 2rem;
+      border-radius: 50px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: .95rem;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--green);
+      box-shadow: var(--shadow-gold);
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,.45); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--gold);
+    }
+    .btn-outline:hover { background: var(--gold); color: var(--green); transform: translateY(-2px); }
+
+    /* ============================================================
+       FADE-IN ANIMATION (JS triggers .visible)
+    ============================================================ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.delay-1 { transition-delay: .1s; }
+    .fade-up.delay-2 { transition-delay: .2s; }
+    .fade-up.delay-3 { transition-delay: .3s; }
+    .fade-up.delay-4 { transition-delay: .4s; }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(26,60,42,.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,.18);
+      transition: var(--transition);
+    }
+    #navbar.scrolled {
+      background: rgba(26,60,42,1);
+      box-shadow: 0 4px 24px rgba(0,0,0,.25);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    /* Logo */
+    .logo { display: flex; align-items: center; gap: .75rem; }
+    .logo-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; color: var(--green);
+      box-shadow: 0 2px 12px rgba(201,168,76,.4);
+    }
+    .logo-text { line-height: 1.1; }
+    .logo-text strong {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900; font-size: 1.05rem;
+      color: var(--gold);
+      display: block;
+    }
+    .logo-text span {
+      font-family: 'Lato', sans-serif;
+      font-size: .72rem; color: rgba(255,255,255,.65);
+      letter-spacing: .08em; text-transform: uppercase;
+    }
+    /* Nav links */
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a {
+      color: rgba(255,255,255,.82);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600; font-size: .88rem;
+      letter-spacing: .04em; text-transform: uppercase;
+      position: relative; padding: .25rem 0;
+      transition: color var(--transition);
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; left: 0; bottom: -2px;
+      width: 0; height: 2px;
+      background: var(--gold);
+      transition: width var(--transition);
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta { margin-left: .5rem; }
+    /* Hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--gold); border-radius: 2px;
+      transition: var(--transition);
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none; flex-direction: column; gap: 0;
+      background: var(--green);
+      border-top: 1px solid rgba(201,168,76,.18);
+    }
+    .mobile-menu a {
+      padding: 1rem 1.5rem;
+      color: rgba(255,255,255,.85);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600; font-size: .92rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      transition: background var(--transition), color var(--transition);
+    }
+    .mobile-menu a:hover { background: var(--green-mid); color: var(--gold); }
+    .mobile-menu.open { display: flex; }
+
+    /* ---- DROPDOWN ---- */
+    .nav-item { position: relative; }
+    .nav-item > a { display: flex; align-items: center; gap: .3rem; }
+    .nav-item > a .caret {
+      font-size: .55rem; transition: transform var(--transition);
+    }
+    .nav-item:hover > a .caret { transform: rotate(180deg); }
+    /* Bridge pseudo-element fills the gap so hover is never lost */
+    .nav-item::after {
+      content: '';
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      height: 20px; /* covers the gap */
+      display: none;
+    }
+    .nav-item:hover::after { display: block; }
+    .dropdown {
+      display: none;
+      position: absolute; top: calc(100% + 18px); left: 50%;
+      transform: translateX(-50%);
+      background: var(--green);
+      border: 1px solid rgba(201,168,76,.22);
+      border-radius: var(--radius);
+      min-width: 210px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.28);
+      overflow: hidden;
+      z-index: 200;
+    }
+    .nav-item:hover .dropdown { display: block; }
+    .dropdown a {
+      display: block;
+      padding: .75rem 1.2rem;
+      color: rgba(255,255,255,.82);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600; font-size: .82rem;
+      letter-spacing: .04em; text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      transition: background var(--transition), color var(--transition);
+      white-space: nowrap;
+    }
+    .dropdown a:last-child { border-bottom: none; }
+    .dropdown a:hover { background: var(--green-mid); color: var(--gold); }
+    .dropdown a i { margin-right: .5rem; font-size: .78rem; color: var(--gold); }
+
+    /* Mobile dropdown */
+    .mobile-group summary {
+      padding: 1rem 1.5rem;
+      color: rgba(255,255,255,.85);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600; font-size: .92rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      cursor: pointer; list-style: none;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background var(--transition), color var(--transition);
+    }
+    .mobile-group summary:hover { background: var(--green-mid); color: var(--gold); }
+    .mobile-group summary .caret { font-size: .65rem; transition: transform var(--transition); }
+    .mobile-group[open] summary .caret { transform: rotate(180deg); }
+    .mobile-group .mobile-sub a {
+      padding: .75rem 2.2rem;
+      font-size: .85rem;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      display: block;
+      color: rgba(255,255,255,.7);
+      font-family: 'Montserrat', sans-serif; font-weight: 600;
+      letter-spacing: .04em; text-transform: uppercase;
+      transition: background var(--transition), color var(--transition);
+    }
+    .mobile-group .mobile-sub a:hover { background: var(--green-mid); color: var(--gold); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(135deg, rgba(26,60,42,.92) 0%, rgba(26,60,42,.75) 60%, rgba(201,168,76,.18) 100%),
+        url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1600&auto=format&fit=crop&q=80') center/cover no-repeat;
+      display: flex; align-items: center;
+      padding: 120px 0 80px;
+      position: relative; overflow: hidden;
+    }
+    /* animated droplet blobs */
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,.18), transparent 70%);
+      animation: floatBlob 8s ease-in-out infinite;
+    }
+    .hero-blob:nth-child(1) { width: 420px; height: 420px; top: -80px; right: -60px; animation-delay: 0s; }
+    .hero-blob:nth-child(2) { width: 260px; height: 260px; bottom: 60px; left: -40px; animation-delay: -3s; }
+    @keyframes floatBlob {
+      0%,100% { transform: translateY(0) scale(1); }
+      50%      { transform: translateY(-28px) scale(1.06); }
+    }
+    .hero-content { max-width: 680px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(201,168,76,.18);
+      border: 1px solid rgba(201,168,76,.4);
+      color: var(--gold-light);
+      border-radius: 50px;
+      padding: .4rem 1.1rem;
+      font-size: .8rem; font-family: 'Montserrat', sans-serif;
+      font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      margin-bottom: 1.6rem;
+    }
+    .hero-badge i { font-size: .7rem; }
+    .hero-h1 {
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.12;
+      margin-bottom: 1.2rem;
+    }
+    .hero-h1 span { color: var(--gold); }
+    .hero-sub {
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      color: rgba(255,255,255,.75);
+      line-height: 1.7;
+      margin-bottom: 2.4rem;
+      max-width: 540px;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-stats {
+      margin-top: 3.5rem;
+      display: flex; gap: 2.5rem; flex-wrap: wrap;
+    }
+    .hero-stat { text-align: left; }
+    .hero-stat strong {
+      display: block;
+      font-size: 2rem; font-weight: 900;
+      color: var(--gold); font-family: 'Montserrat', sans-serif;
+    }
+    .hero-stat span { font-size: .8rem; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: .06em; }
+    .hero-divider { width: 1px; height: 40px; background: rgba(255,255,255,.2); align-self: center; }
+
+    /* ============================================================
+       ABOUT
+    ============================================================ */
+    #about { padding: 100px 0; background: var(--white); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-wrap img {
+      width: 100%; border-radius: var(--radius);
+      object-fit: cover; height: 500px;
+      box-shadow: var(--shadow);
+    }
+    .about-badge-img {
+      position: absolute; bottom: -24px; right: -24px;
+      width: 140px; height: 140px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      box-shadow: var(--shadow-gold);
+      font-family: 'Montserrat', sans-serif;
+    }
+    .about-badge-img strong { font-size: 2rem; font-weight: 900; color: var(--green); }
+    .about-badge-img span { font-size: .65rem; color: var(--green); font-weight: 700; text-align: center; line-height: 1.3; }
+    .about-text p {
+      font-size: 1.05rem; line-height: 1.85; color: var(--text-mid); margin-bottom: 1.2rem;
+    }
+    .mvv-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+    .mvv-card {
+      background: var(--ivory);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      border-left: 3px solid var(--gold);
+    }
+    .mvv-card h4 {
+      font-size: .8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--gold-dark); margin-bottom: .4rem;
+    }
+    .mvv-card p { font-size: .85rem; line-height: 1.6; color: var(--text-mid); }
+
+    /* ============================================================
+       SERVICES
+    ============================================================ */
+    #services { padding: 100px 0; background: var(--ivory); }
+    #services .mol-bg::before { opacity: 1; }
+    .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .service-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2.4rem 1.8rem;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(26,60,42,.06);
+      border: 1px solid rgba(201,168,76,.12);
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .service-card:hover { transform: translateY(-8px); box-shadow: var(--shadow); border-color: var(--gold); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 1.8rem; color: var(--green);
+      box-shadow: var(--shadow-gold);
+      transition: transform var(--transition);
+    }
+    .service-card:hover .service-icon { transform: scale(1.12) rotate(8deg); }
+    .service-card h3 {
+      font-size: 1.1rem; color: var(--green); margin-bottom: .8rem;
+    }
+    .service-card p { font-size: .9rem; color: var(--text-mid); line-height: 1.7; }
+    .service-card .learn-more {
+      display: inline-flex; align-items: center; gap: .4rem;
+      margin-top: 1.2rem; color: var(--gold-dark);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700; font-size: .82rem; text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .service-card .learn-more i { transition: transform var(--transition); }
+    .service-card:hover .learn-more i { transform: translateX(4px); }
+
+    /* ============================================================
+       PORTFOLIO
+    ============================================================ */
+    #portfolio { padding: 100px 0; background: var(--green); }
+    #portfolio .section-title { color: var(--white); }
+    #portfolio .section-sub { color: rgba(255,255,255,.6); }
+    .portfolio-filters {
+      display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 2.5rem;
+    }
+    .filter-btn {
+      padding: .5rem 1.4rem;
+      border-radius: 50px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700; font-size: .82rem; text-transform: uppercase;
+      letter-spacing: .05em;
+      cursor: pointer; border: 2px solid rgba(201,168,76,.4);
+      background: transparent; color: rgba(255,255,255,.7);
+      transition: var(--transition);
+    }
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--gold); color: var(--green); border-color: var(--gold);
+    }
+    .portfolio-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .portfolio-item {
+      position: relative; border-radius: var(--radius); overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+    }
+    .portfolio-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .5s ease;
+    }
+    .portfolio-item:hover img { transform: scale(1.08); }
+    .portfolio-caption {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,60,42,.92) 0%, transparent 55%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 1.5rem;
+      opacity: 0; transform: translateY(10px);
+      transition: var(--transition);
+    }
+    .portfolio-item:hover .portfolio-caption { opacity: 1; transform: translateY(0); }
+    .portfolio-caption h4 { color: var(--white); font-size: 1rem; margin-bottom: .3rem; }
+    .portfolio-caption span {
+      font-size: .75rem; color: var(--gold-light);
+      font-family: 'Montserrat', sans-serif; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .portfolio-item[data-cat] { transition: opacity .35s, transform .35s; }
+    .portfolio-item.hidden { opacity: 0; pointer-events: none; transform: scale(.95); }
+
+    /* ============================================================
+       TESTIMONIALS
+    ============================================================ */
+    #testimonials { padding: 100px 0; background: var(--ivory-dark); }
+    .testimonials-wrap { position: relative; overflow: hidden; }
+    .testimonials-track {
+      display: flex; transition: transform .6s cubic-bezier(.4,0,.2,1);
+    }
+    .testimonial-slide {
+      min-width: 100%;
+      display: flex; justify-content: center; align-items: center;
+      padding: 0 2rem;
+    }
+    .testimonial-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 3rem 3rem 2.5rem;
+      max-width: 780px; width: 100%;
+      box-shadow: var(--shadow);
+      position: relative;
+      border-top: 4px solid var(--gold);
+    }
+    .quote-icon {
+      position: absolute; top: -24px; left: 2.5rem;
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; color: var(--green);
+    }
+    .testimonial-text {
+      font-size: 1.1rem; line-height: 1.85;
+      color: var(--text-mid); font-style: italic;
+      margin-bottom: 1.8rem;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+    .author-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+    }
+    .author-info strong { display: block; font-size: .95rem; color: var(--green); }
+    .author-info span { font-size: .8rem; color: var(--text-light); }
+    .stars { color: var(--gold); font-size: .85rem; margin-top: .2rem; }
+    .carousel-controls {
+      display: flex; justify-content: center; align-items: center; gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .carousel-btn {
+      width: 48px; height: 48px;
+      border-radius: 50%; border: 2px solid var(--gold);
+      background: transparent; color: var(--gold);
+      font-size: 1rem; cursor: pointer;
+      transition: var(--transition);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .carousel-btn:hover { background: var(--gold); color: var(--green); }
+    .carousel-dots { display: flex; gap: .5rem; }
+    .carousel-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(26,60,42,.2); border: none; cursor: pointer;
+      transition: var(--transition); padding: 0;
+    }
+    .carousel-dot.active { background: var(--gold); transform: scale(1.3); }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    #contact { padding: 100px 0; background: var(--white); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .contact-info p { font-size: 1rem; color: var(--text-mid); line-height: 1.75; margin-bottom: 2rem; }
+    .contact-detail {
+      display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.2rem;
+    }
+    .contact-detail-icon {
+      width: 42px; height: 42px; min-width: 42px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: var(--green); font-size: .95rem;
+    }
+    .contact-detail div strong { display: block; font-size: .82rem; text-transform: uppercase; letter-spacing: .06em; color: var(--gold-dark); }
+    .contact-detail div span { font-size: .95rem; color: var(--text-mid); }
+    .map-wrap {
+      margin-top: 2rem; border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); height: 200px;
+    }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; }
+    /* Form */
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: .4rem; }
+    .form-group label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700; font-size: .8rem;
+      text-transform: uppercase; letter-spacing: .06em;
+      color: var(--green);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      padding: .85rem 1.1rem;
+      border: 2px solid rgba(26,60,42,.12);
+      border-radius: var(--radius);
+      font-family: 'Lato', sans-serif;
+      font-size: .95rem; color: var(--text-dark);
+      background: var(--ivory);
+      transition: border-color var(--transition);
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--gold); background: var(--white); }
+    .form-group textarea { resize: vertical; min-height: 130px; }
+    .form-success {
+      display: none;
+      background: rgba(46,93,64,.1);
+      border: 1px solid var(--green-light);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    #footer {
+      background: var(--green);
+      padding: 60px 0 30px;
+      color: rgba(255,255,255,.7);
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand .logo-text strong { font-size: 1.1rem; }
+    .footer-brand p { font-size: .88rem; line-height: 1.75; margin-top: 1rem; }
+    .footer-col h5 {
+      font-size: .8rem; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .footer-col ul li { margin-bottom: .6rem; }
+    .footer-col ul li a { font-size: .88rem; color: rgba(255,255,255,.6); transition: color var(--transition); }
+    .footer-col ul li a:hover { color: var(--gold); }
+    .social-links { display: flex; gap: .75rem; margin-top: 1.4rem; }
+    .social-links a {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,.3);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.65); font-size: .9rem;
+      transition: var(--transition);
+    }
+    .social-links a:hover { background: var(--gold); border-color: var(--gold); color: var(--green); transform: translateY(-3px); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-size: .82rem; }
+    .footer-bottom a { color: var(--gold); }
+
+    /* ============================================================
+       MODAL
+    ============================================================ */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.6); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--white);
+      border-radius: 24px;
+      max-width: 560px; width: 100%;
+      box-shadow: 0 24px 80px rgba(0,0,0,.3);
+      overflow: hidden;
+      animation: modalIn .35s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(.92) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-header {
+      background: linear-gradient(135deg, var(--green), var(--green-mid));
+      padding: 2rem 2rem 1.5rem;
+      display: flex; align-items: flex-start; justify-content: space-between;
+    }
+    .modal-header-content { display: flex; gap: 1rem; align-items: center; }
+    .modal-icon {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: var(--green);
+    }
+    .modal-header h3 { color: var(--white); font-size: 1.2rem; }
+    .modal-header span { color: rgba(255,255,255,.6); font-size: .85rem; }
+    .modal-close {
+      background: rgba(255,255,255,.15); border: none; border-radius: 50%;
+      width: 36px; height: 36px; cursor: pointer; color: var(--white);
+      font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition);
+    }
+    .modal-close:hover { background: rgba(255,255,255,.28); }
+    .modal-body { padding: 2rem; }
+    .modal-body p { font-size: .95rem; line-height: 1.8; color: var(--text-mid); margin-bottom: 1rem; }
+    .modal-features { list-style: none; }
+    .modal-features li {
+      display: flex; align-items: flex-start; gap: .75rem;
+      font-size: .9rem; color: var(--text-mid); margin-bottom: .6rem;
+    }
+    .modal-features li i { color: var(--gold); margin-top: .2rem; min-width: 14px; }
+
+    /* ============================================================
+       SHOP PAGE OVERLAY (independent page)
+    ============================================================ */
+    #shop-page {
+      display: none;
+      position: fixed; inset: 0; z-index: 1100;
+      background: var(--ivory-dark);
+      overflow-y: auto;
+    }
+    #shop-page.open { display: block; }
+    .shop-page-nav {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(26,60,42,.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,.18);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+      gap: 1rem;
+    }
+    .shop-page-nav .logo { display: flex; align-items: center; gap: .75rem; flex-shrink: 0; }
+    .shop-nav-links {
+      display: flex; align-items: center; gap: 1.5rem; flex: 1; justify-content: center;
+    }
+    .shop-nav-links a {
+      color: rgba(255,255,255,.78);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600; font-size: .82rem;
+      letter-spacing: .04em; text-transform: uppercase;
+      cursor: pointer;
+      transition: color var(--transition);
+      white-space: nowrap;
+    }
+    .shop-nav-links a:hover { color: var(--gold); }
+    .shop-page-back {
+      display: inline-flex; align-items: center; gap: .5rem;
+      color: rgba(255,255,255,.8);
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: .85rem; letter-spacing: .05em; text-transform: uppercase;
+      background: rgba(201,168,76,.15); border: 1px solid rgba(201,168,76,.3);
+      border-radius: 50px; padding: .45rem 1.1rem;
+      cursor: pointer; transition: var(--transition); flex-shrink: 0;
+    }
+    .shop-page-back:hover { background: var(--gold); color: var(--green); }
+    @media (max-width: 768px) { .shop-nav-links { display: none; } }
+    #shop { padding: 100px 0; background: var(--ivory-dark); }
+    .shop-tabs {
+      display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 2.8rem;
+    }
+    .shop-tab {
+      padding: .55rem 1.5rem;
+      border-radius: 50px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700; font-size: .8rem; text-transform: uppercase;
+      letter-spacing: .05em; cursor: pointer;
+      border: 2px solid rgba(26,60,42,.2);
+      background: transparent; color: var(--text-mid);
+      transition: var(--transition);
+    }
+    .shop-tab.active,
+    .shop-tab:hover { background: var(--green); color: var(--gold); border-color: var(--green); }
+
+    /* Price-list table style (actives & oils) */
+    .price-table-wrap { overflow-x: auto; }
+    .price-table {
+      width: 100%; border-collapse: collapse;
+      font-size: .95rem;
+    }
+    .price-table thead tr {
+      background: linear-gradient(135deg, var(--green), var(--green-mid));
+      color: var(--white);
+    }
+    .price-table thead th {
+      padding: .85rem 1.2rem; text-align: left;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .78rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+    .price-table tbody tr {
+      border-bottom: 1px solid rgba(26,60,42,.07);
+      transition: background var(--transition);
+    }
+    .price-table tbody tr:hover { background: rgba(201,168,76,.08); }
+    .price-table tbody td { padding: .85rem 1.2rem; }
+    .price-table tbody td:first-child { font-weight: 600; color: var(--text-dark); }
+    .price-table tbody td:last-child {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; color: var(--green);
+      white-space: nowrap;
+    }
+    .price-badge {
+      display: inline-block;
+      background: rgba(201,168,76,.15);
+      border: 1px solid rgba(201,168,76,.4);
+      color: var(--gold-dark);
+      border-radius: 50px;
+      padding: .2rem .75rem;
+      font-size: .72rem; font-family: 'Montserrat', sans-serif;
+      font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+      margin-left: .5rem;
+    }
+    .price-section-head {
+      background: var(--ivory) !important;
+    }
+    .price-section-head td {
+      padding: 1rem 1.2rem .5rem !important;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900 !important; font-size: .85rem !important;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: var(--gold-dark) !important;
+      border-bottom: 2px solid var(--gold) !important;
+    }
+
+    /* Product cards (finished skincare) */
+    .product-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem;
+    }
+    .product-card {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(201,168,76,.14);
+      box-shadow: 0 2px 12px rgba(26,60,42,.06);
+      transition: var(--transition);
+      display: flex; flex-direction: column;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: var(--gold); }
+    .product-card-img {
+      height: 160px;
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem; position: relative; overflow: hidden;
+    }
+    .product-card-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C9A84C' stroke-width='0.5' opacity='0.2'%3E%3Ccircle cx='15' cy='15' r='4'/%3E%3Ccircle cx='45' cy='15' r='4'/%3E%3Ccircle cx='30' cy='42' r='4'/%3E%3Cline x1='15' y1='15' x2='45' y2='15'/%3E%3Cline x1='15' y1='15' x2='30' y2='42'/%3E%3Cline x1='45' y1='15' x2='30' y2='42'/%3E%3C/g%3E%3C/svg%3E") repeat;
+    }
+    .product-card-body { padding: 1.1rem; flex: 1; display: flex; flex-direction: column; }
+    .product-cat-tag {
+      font-size: .68rem; font-family: 'Montserrat', sans-serif;
+      font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+      color: var(--gold-dark); margin-bottom: .35rem;
+    }
+    .product-card-body h4 { font-size: .95rem; color: var(--green); margin-bottom: auto; line-height: 1.3; }
+    .product-price-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 1rem; padding-top: .75rem;
+      border-top: 1px solid rgba(26,60,42,.07);
+    }
+    .product-price {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900; font-size: 1.05rem; color: var(--green);
+    }
+    .product-price span { font-size: .7rem; color: var(--text-light); font-weight: 400; }
+    .order-btn {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 50%; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--green); font-size: .85rem;
+      box-shadow: var(--shadow-gold);
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .order-btn:hover { transform: scale(1.18); }
+
+    /* CTA banner inside shop */
+    .shop-cta-banner {
+      margin-top: 3rem;
+      background: linear-gradient(135deg, var(--green), var(--green-mid));
+      border-radius: 20px;
+      padding: 2.5rem 3rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
+      border: 1px solid rgba(201,168,76,.2);
+    }
+    .shop-cta-banner h3 { color: var(--white); font-size: 1.4rem; }
+    .shop-cta-banner p { color: rgba(255,255,255,.65); font-size: .95rem; margin-top: .3rem; }
+
+    /* hidden panel logic */
+    .shop-panel { display: none; }
+    .shop-panel.active { display: block; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .product-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-img-wrap { order: -1; }
+      .about-img-wrap img { height: 300px; }
+      .about-badge-img { bottom: -16px; right: 16px; }
+      .mvv-grid { grid-template-columns: 1fr; }
+      .portfolio-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 1.5rem; }
+      .hero-divider { display: none; }
+      .shop-cta-banner { padding: 1.8rem; }
+    }
+    @media (max-width: 480px) {
+      .portfolio-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#hero" class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-flask"></i>
+        </div>
+        <div class="logo-text">
+          <strong>Formulators Hub</strong>
+          <span>Uganda · Cosmetic Science</span>
+        </div>
+      </a>
+
+      <div class="nav-links">
+        <a href="#hero">Home</a>
+        <!-- Company dropdown -->
+        <div class="nav-item">
+          <a href="#about">Company <i class="fas fa-chevron-down caret"></i></a>
+          <div class="dropdown">
+            <a href="#about"><i class="fas fa-info-circle"></i> About Us</a>
+            <a href="#testimonials"><i class="fas fa-star"></i> Testimonials</a>
+          </div>
+        </div>
+        <!-- Services dropdown -->
+        <div class="nav-item">
+          <a href="#services">Services <i class="fas fa-chevron-down caret"></i></a>
+          <div class="dropdown">
+            <a href="#services" data-modal-trigger="modal-dev"><i class="fas fa-flask"></i> Product Development</a>
+            <a href="#services" data-modal-trigger="modal-consult"><i class="fas fa-atom"></i> Brand Consultancy</a>
+            <a href="#services" data-modal-trigger="modal-pkg"><i class="fas fa-tint"></i> Packaging Design</a>
+            <a href="#services" data-modal-trigger="modal-train"><i class="fas fa-cogs"></i> Formulation Training</a>
+          </div>
+        </div>
+        <!-- Portfolio — plain link, no dropdown -->
+        <a href="#portfolio">Portfolio</a>
+        <a href="javascript:void(0)" onclick="openShopPage()">Shop</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a href="#contact" class="btn btn-gold nav-cta" style="font-size:.82rem;padding:.6rem 1.4rem;">
+        <i class="fas fa-paper-plane"></i> Get in Touch
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#hero" class="mobile-link">Home</a>
+      <details class="mobile-group">
+        <summary>Company <i class="fas fa-chevron-down caret"></i></summary>
+        <div class="mobile-sub">
+          <a href="#about" class="mobile-link">About Us</a>
+          <a href="#testimonials" class="mobile-link">Testimonials</a>
+        </div>
+      </details>
+      <details class="mobile-group">
+        <summary>Services <i class="fas fa-chevron-down caret"></i></summary>
+        <div class="mobile-sub">
+          <a href="#services" class="mobile-link">Product Development</a>
+          <a href="#services" class="mobile-link">Brand Consultancy</a>
+          <a href="#services" class="mobile-link">Packaging Design</a>
+          <a href="#services" class="mobile-link">Formulation Training</a>
+        </div>
+      </details>
+      <a href="#portfolio" class="mobile-link">Portfolio</a>
+      <a href="javascript:void(0)" class="mobile-link" onclick="openShopPage();document.getElementById('hamburger').classList.remove('open');document.getElementById('mobileMenu').classList.remove('open');">Shop</a>
+      <a href="#contact" class="mobile-link">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section id="hero">
+  <div class="hero-blob"></div>
+  <div class="hero-blob"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge fade-up">
+        <i class="fas fa-atom"></i>
+        Science · Innovation · Africa
+      </div>
+      <h1 class="hero-h1 fade-up delay-1">
+        Innovating <span>Skincare</span><br>Formulation in Africa.
+      </h1>
+      <p class="hero-sub fade-up delay-2">
+        From concept to creation — we empower brands with science. Crafting premium cosmetic formulations that honour African skin and global standards.
+      </p>
+      <div class="hero-btns fade-up delay-3">
+        <a href="#services" class="btn btn-gold">
+          <i class="fas fa-flask"></i> Explore Services
+        </a>
+        <a href="#contact" class="btn btn-outline">
+          <i class="fas fa-graduation-cap"></i> Join Training
+        </a>
+      </div>
+      <div class="hero-stats fade-up delay-4">
+        <div class="hero-stat"><strong>120+</strong><span>Formulations</span></div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat"><strong>500+</strong><span>Trainees</span></div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat"><strong>8+</strong><span>Years' Experience</span></div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat"><strong>30+</strong><span>Brands Served</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT
+============================================================ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <!-- Image -->
+      <div class="about-img-wrap fade-up">
+        <img
+          src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=900&auto=format&fit=crop&q=80"
+          alt="Lab scientist at work"
+        />
+        <div class="about-badge-img">
+          <strong>8+</strong>
+          <span>Years of<br>Formulation<br>Excellence</span>
+        </div>
+      </div>
+      <!-- Text -->
+      <div class="about-text fade-up delay-2">
+        <div class="gold-line"></div>
+        <p class="section-title">About <span>Formulators Hub</span></p>
+        <p>
+          Formulators Hub Uganda is East Africa's premier cosmetic science and product development firm, dedicated to transforming raw ideas into extraordinary skincare, haircare, and fragrance products.
+        </p>
+        <p>
+          Founded by passionate cosmetic chemists, we blend rigorous science with deep knowledge of African botanical ingredients — creating formulations that are safe, effective, and culturally resonant.
+        </p>
+        <p>
+          Whether you are launching your first product line or scaling an established brand, we provide end-to-end solutions from lab bench to market shelf.
+        </p>
+        <div class="mvv-grid">
+          <div class="mvv-card fade-up delay-1">
+            <h4>Mission</h4>
+            <p>To democratise cosmetic science by making expert formulation accessible to every African entrepreneur, brand, and beauty professional.</p>
+          </div>
+          <div class="mvv-card fade-up delay-2">
+            <h4>Vision</h4>
+            <p>To be the foremost centre of cosmetic innovation on the African continent, shaping global beauty standards by 2030.</p>
+          </div>
+          <div class="mvv-card fade-up delay-3">
+            <h4>Values</h4>
+            <p>Scientific rigour · Ethical sourcing · Client-centred innovation · Pan-African pride · Transparency in every formulation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SERVICES
+============================================================ -->
+<section id="services" class="mol-bg">
+  <div class="container">
+    <div class="gold-line fade-up"></div>
+    <h2 class="section-title fade-up">Our <span>Services</span></h2>
+    <p class="section-sub fade-up delay-1">Comprehensive cosmetic solutions designed to take your brand from idea to shelf with confidence.</p>
+
+    <div class="services-grid">
+      <!-- 1 -->
+      <div class="service-card fade-up delay-1"
+           data-modal="modal-dev">
+        <div class="service-icon"><i class="fas fa-flask"></i></div>
+        <h3>Product Development</h3>
+        <p>Custom formulation of serums, creams, cleansers, and more — built on scientific rigour and African botanical knowledge.</p>
+        <div class="learn-more">Learn More <i class="fas fa-arrow-right"></i></div>
+      </div>
+      <!-- 2 -->
+      <div class="service-card fade-up delay-2"
+           data-modal="modal-consult">
+        <div class="service-icon"><i class="fas fa-atom"></i></div>
+        <h3>Brand Consultancy</h3>
+        <p>Strategic brand positioning, regulatory compliance, stability testing coordination, and market entry support.</p>
+        <div class="learn-more">Learn More <i class="fas fa-arrow-right"></i></div>
+      </div>
+      <!-- 3 -->
+      <div class="service-card fade-up delay-3"
+           data-modal="modal-pkg">
+        <div class="service-icon"><i class="fas fa-tint"></i></div>
+        <h3>Packaging Design</h3>
+        <p>Premium packaging concepts and structural design that communicate your brand story at first glance.</p>
+        <div class="learn-more">Learn More <i class="fas fa-arrow-right"></i></div>
+      </div>
+      <!-- 4 -->
+      <div class="service-card fade-up delay-4"
+           data-modal="modal-train">
+        <div class="service-icon"><i class="fas fa-cogs"></i></div>
+        <h3>Formulation Training</h3>
+        <p>Hands-on workshops and online courses for entrepreneurs, chemists, and beauty professionals across Africa.</p>
+        <div class="learn-more">Learn More <i class="fas fa-arrow-right"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SHOP PAGE (independent overlay page)
+============================================================ -->
+<div id="shop-page">
+  <!-- Shop page sticky nav -->
+  <div class="shop-page-nav">
+    <a href="javascript:void(0)" onclick="closeShopPage()" class="logo">
+      <div class="logo-icon"><i class="fas fa-flask"></i></div>
+      <div class="logo-text">
+        <strong>Formulators Hub</strong>
+        <span>Uganda · Cosmetic Science</span>
+      </div>
+    </a>
+    <nav class="shop-nav-links">
+      <a onclick="closeShopPage();setTimeout(()=>{document.querySelector('#hero').scrollIntoView({behavior:'smooth'})},120)">Home</a>
+      <a onclick="closeShopPage();setTimeout(()=>{document.querySelector('#about').scrollIntoView({behavior:'smooth'})},120)">About</a>
+      <a onclick="closeShopPage();setTimeout(()=>{document.querySelector('#services').scrollIntoView({behavior:'smooth'})},120)">Services</a>
+      <a onclick="closeShopPage();setTimeout(()=>{document.querySelector('#portfolio').scrollIntoView({behavior:'smooth'})},120)">Portfolio</a>
+      <a onclick="closeShopPage();setTimeout(()=>{document.querySelector('#contact').scrollIntoView({behavior:'smooth'})},120)">Contact</a>
+    </nav>
+    <button class="shop-page-back" onclick="closeShopPage()">
+      <i class="fas fa-arrow-left"></i> Back to Home
+    </button>
+  </div>
+
+<section id="shop" style="padding-top:60px;">
+  <div class="container">
+    <div class="gold-line fade-up"></div>
+    <h2 class="section-title fade-up">Our <span>Products</span></h2>
+    <p class="section-sub fade-up delay-1">Ready-made skincare, premium cosmetic actives, and carrier seed oils — all available for order via WhatsApp.</p>
+
+    <!-- TAB BUTTONS -->
+    <div class="shop-tabs fade-up delay-2">
+      <button class="shop-tab active" data-panel="panel-skincare">
+        <i class="fas fa-jar"></i> Skincare Products
+      </button>
+      <button class="shop-tab" data-panel="panel-actives">
+        <i class="fas fa-atom"></i> Cosmetic Actives
+      </button>
+      <button class="shop-tab" data-panel="panel-oils">
+        <i class="fas fa-tint"></i> Seed Oils
+      </button>
+    </div>
+
+    <!-- PANEL 1: FINISHED SKINCARE PRODUCTS -->
+    <div class="shop-panel active fade-up delay-3" id="panel-skincare">
+      <div class="product-grid">
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#2E5D40,#1A3C2A)">✨</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Glow</div>
+            <h4>Glow Oil</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 10,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Glow%20Oil" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#3D7A56,#2E5D40)">🌿</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Brightening</div>
+            <h4>Lightening Cream</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 60,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Lightening%20Cream" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#1A3C2A,#3D7A56)">🧴</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Cleansing</div>
+            <h4>Knuckle Cleanser</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 60,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Knuckle%20Cleanser" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#A07830,#C9A84C)">💛</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Body</div>
+            <h4>Brightening Lotion</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 50,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Brightening%20Lotion" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#2E5D40,#A07830)">💎</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Body</div>
+            <h4>Glass Skin Lotion</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 40,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Glass%20Skin%20Lotion" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#1A3C2A,#2E5D40)">🧼</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Cleansing</div>
+            <h4>Odogu Soap</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 40,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Odogu%20Soap" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#C9A84C,#E8C96A)">☀️</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Sun Protection</div>
+            <h4>Biover Sunscreen</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 70,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Biover%20Sunscreen" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#3D7A56,#C9A84C)">🌞</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Sun Protection</div>
+            <h4>Nivea Sunscreen</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 120,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Nivea%20Sunscreen" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#1A3C2A,#A07830)">🌙</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Acne Care</div>
+            <h4>Pimple Cream</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 60,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Pimple%20Cream" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#2E5D40,#1A3C2A)">💧</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Acne Care</div>
+            <h4>Pimple Toner</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 40,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Pimple%20Toner" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#A07830,#3D7A56)">🌸</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Toner</div>
+            <h4>Hyperfade Toner</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 80,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Hyperfade%20Toner" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#C9A84C,#2E5D40)">🌹</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Toner</div>
+            <h4>Rose Balancing Toner</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 40,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Rose%20Balancing%20Toner" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#E8C96A,#A07830)">✨</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Face Oil</div>
+            <h4>Face Brightening Oil</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 50,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Face%20Brightening%20Oil" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#3D7A56,#E8C96A)">🍊</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Serum</div>
+            <h4>Vitamin C Serum</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 60,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Vitamin%20C%20Serum" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#A07830,#1A3C2A)">🥕</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Soap</div>
+            <h4>Carrot Lightening Soap</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 50,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Carrot%20Lightening%20Soap" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#1A3C2A,#C9A84C)">🖤</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Soap</div>
+            <h4>Black Soap Brightening</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 50,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Black%20Soap%20Brightening" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#2E5D40,#E8C96A)">🧴</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Soap</div>
+            <h4>Lightening Black Soap</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 70,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Lightening%20Black%20Soap" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#C9A84C,#1A3C2A)">💫</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Body Oil</div>
+            <h4>Lightening Oil</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 100,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Lightening%20Oil" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#3D7A56,#A07830)">☕</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Scrub</div>
+            <h4>Coffee Scrub</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 35,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Coffee%20Scrub" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#E8C96A,#2E5D40)">🌿</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Scrub</div>
+            <h4>Turmeric Scrub</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 30,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Turmeric%20Scrub" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#A07830,#3D7A56)">✨</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Body Oil</div>
+            <h4>Rich Aunty Body Glow Oil</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 60,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Rich%20Aunty%20Body%20Glow%20Oil" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img" style="background:linear-gradient(135deg,#1A3C2A,#E8C96A)">🌙</div>
+          <div class="product-card-body">
+            <div class="product-cat-tag">Treatment</div>
+            <h4>Hyperpigmentation Cream</h4>
+            <div class="product-price-row">
+              <div class="product-price">UGX 50,000 <span>/unit</span></div>
+              <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Hyperpigmentation%20Cream" target="_blank" class="order-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /product-grid -->
+    </div><!-- /panel-skincare -->
+
+    <!-- PANEL 2: COSMETIC ACTIVES (20g packs) -->
+    <div class="shop-panel" id="panel-actives">
+      <div class="price-table-wrap">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>Active Ingredient</th>
+              <th>Pack Size</th>
+              <th>Price (UGX)</th>
+              <th>Order</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="price-section-head">
+              <td colspan="4">Cosmetic Actives — 20g Packs</td>
+            </tr>
+            <tr>
+              <td>Niacinamide</td>
+              <td>20 g</td>
+              <td>20,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Niacinamide%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Alpha Arbutin</td>
+              <td>20 g</td>
+              <td>25,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Alpha%20Arbutin%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Tranexamic Acid</td>
+              <td>20 g</td>
+              <td>25,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Tranexamic%20Acid%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Hyaluronic Acid</td>
+              <td>20 g</td>
+              <td>30,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Hyaluronic%20Acid%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Azelaic Acid</td>
+              <td>20 g</td>
+              <td>30,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Azelaic%20Acid%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Sepi White</td>
+              <td>20 g</td>
+              <td>30,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Sepi%20White%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Synm White</td>
+              <td>20 g</td>
+              <td>30,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Synm%20White%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Zinc PCA</td>
+              <td>20 g</td>
+              <td>30,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Zinc%20PCA%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Glycolic Acid</td>
+              <td>20 g</td>
+              <td>30,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Glycolic%20Acid%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Betaine Powder</td>
+              <td>20 g</td>
+              <td>30,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Betaine%20Powder%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Mandelic Acid</td>
+              <td>20 g</td>
+              <td>30,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Mandelic%20Acid%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Glutathione</td>
+              <td>20 g</td>
+              <td>30,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Glutathione%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Salicylic Acid</td>
+              <td>20 g</td>
+              <td>20,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Salicylic%20Acid%2020g" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /panel-actives -->
+
+    <!-- PANEL 3: SEED OILS (1 Litre) -->
+    <div class="shop-panel" id="panel-oils">
+      <div class="price-table-wrap">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>Seed / Carrier Oil</th>
+              <th>Pack Size</th>
+              <th>Price (UGX)</th>
+              <th>Order</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="price-section-head">
+              <td colspan="4">Premium Carrier &amp; Seed Oils — 1 Litre</td>
+            </tr>
+            <tr>
+              <td>Oshaprapra Oil</td>
+              <td>1 L</td>
+              <td>100,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Oshaprapra%20Oil%201L" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Rosehip Oil</td>
+              <td>1 L</td>
+              <td>140,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Rosehip%20Oil%201L" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Sunflower Oil</td>
+              <td>1 L</td>
+              <td>50,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Sunflower%20Oil%201L" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Carrot Oil</td>
+              <td>1 L</td>
+              <td>150,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Carrot%20Oil%201L" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Avocado Oil</td>
+              <td>1 L</td>
+              <td>150,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Avocado%20Oil%201L" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Jojoba Oil</td>
+              <td>1 L</td>
+              <td>140,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Jojoba%20Oil%201L" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Papaya Oil</td>
+              <td>1 L</td>
+              <td>150,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Papaya%20Oil%201L" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Vitamin E Oil</td>
+              <td>1 L</td>
+              <td>150,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Vitamin%20E%20Oil%201L" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Grape Seed Oil</td>
+              <td>1 L</td>
+              <td>150,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Grape%20Seed%20Oil%201L" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Castor Oil</td>
+              <td>1 L</td>
+              <td>50,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Castor%20Oil%201L" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+            <tr>
+              <td>Extra Virgin Coconut Oil</td>
+              <td>1 L</td>
+              <td>70,000</td>
+              <td><a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20order%20Extra%20Virgin%20Coconut%20Oil%201L" target="_blank" class="order-btn" style="width:auto;border-radius:8px;padding:.3rem .9rem;font-size:.78rem;gap:.4rem;font-family:'Montserrat',sans-serif;font-weight:700;"><i class="fab fa-whatsapp"></i> Order</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /panel-oils -->
+
+    <!-- CTA BANNER -->
+    <div class="shop-cta-banner fade-up">
+      <div>
+        <h3>Need a custom quantity or bulk order?</h3>
+        <p>Contact us directly on WhatsApp for wholesale pricing and bulk deals.</p>
+      </div>
+      <a href="https://wa.me/256708134095?text=Hi%2C%20I%27d%20like%20to%20place%20a%20bulk%20order" target="_blank" class="btn btn-gold">
+        <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+      </a>
+    </div>
+
+  </div>
+</section>
+</div><!-- /#shop-page -->
+
+<!-- ============================================================
+     PORTFOLIO
+============================================================ -->
+<section id="portfolio" class="mol-bg">
+  <div class="container">
+    <div class="gold-line fade-up"></div>
+    <h2 class="section-title fade-up">Our <span>Portfolio</span></h2>
+    <p class="section-sub fade-up delay-1">A curated selection of brands and formulations we have proudly brought to life.</p>
+
+    <div class="portfolio-grid" style="grid-template-columns: repeat(4,1fr); max-width:100%;">
+      <div class="portfolio-item fade-up delay-1">
+        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=700&auto=format&fit=crop&q=80" alt="Radiance Skincare Brand"/>
+        <div class="portfolio-caption">
+          <h4>Radiance by Amara</h4>
+          <span>Brightening Skincare Line · Kampala</span>
+        </div>
+      </div>
+      <div class="portfolio-item fade-up delay-2">
+        <img src="https://images.unsplash.com/photo-1541643600914-78b084683702?w=700&auto=format&fit=crop&q=80" alt="Savanna Fragrance Brand"/>
+        <div class="portfolio-caption">
+          <h4>Savanna Bloom</h4>
+          <span>Luxury Eau de Parfum · East Africa</span>
+        </div>
+      </div>
+      <div class="portfolio-item fade-up delay-3">
+        <img src="https://images.unsplash.com/photo-1559599101-f09722fb4948?w=700&auto=format&fit=crop&q=80" alt="NatureCurl Haircare Brand"/>
+        <div class="portfolio-caption">
+          <h4>NatureCurl Co.</h4>
+          <span>Natural Haircare Range · Nairobi</span>
+        </div>
+      </div>
+      <div class="portfolio-item fade-up delay-4">
+        <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=700&auto=format&fit=crop&q=80" alt="PureGlow Brand"/>
+        <div class="portfolio-caption">
+          <h4>PureGlow Essentials</h4>
+          <span>Science-Backed Moisturisers · Uganda</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SHOP PROMO BANNER
+============================================================ -->
+<section id="shop-promo" style="padding: 72px 0; background: var(--white);">
+  <div class="container">
+    <div class="fade-up" style="
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 60%, rgba(201,168,76,.15) 100%);
+      border-radius: 24px;
+      padding: 56px 60px;
+      display: flex; align-items: center; justify-content: space-between; gap: 2.5rem; flex-wrap: wrap;
+      border: 1px solid rgba(201,168,76,.2);
+      position: relative; overflow: hidden;
+    ">
+      <!-- decorative blob -->
+      <div style="position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.12),transparent 70%);top:-60px;right:-40px;pointer-events:none;"></div>
+      <div style="position:absolute;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.08),transparent 70%);bottom:-40px;left:40%;pointer-events:none;"></div>
+
+      <div style="max-width: 560px; position:relative; z-index:1;">
+        <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.35);color:var(--gold-light);border-radius:50px;padding:.35rem 1rem;font-size:.75rem;font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.2rem;">
+          <i class="fas fa-shopping-bag"></i> Now Available
+        </div>
+        <h2 style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:clamp(1.6rem,3vw,2.2rem);color:var(--white);line-height:1.2;margin-bottom:.9rem;">
+          Ready-Made Products, <span style="color:var(--gold);">Ready to Order</span>
+        </h2>
+        <p style="font-size:1rem;color:rgba(255,255,255,.68);line-height:1.75;margin:0;">
+          Browse our curated range of skincare products, cosmetic actives, and carrier oils — all formulated in-house and available for direct order via WhatsApp. No minimums on most items.
+        </p>
+      </div>
+
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:.85rem;align-items:flex-start;">
+        <button onclick="openShopPage()" class="btn btn-gold" style="font-size:.95rem;padding:.85rem 2.2rem;white-space:nowrap;">
+          <i class="fas fa-shopping-bag"></i> Visit Our Shop
+        </button>
+        <p style="font-size:.78rem;color:rgba(255,255,255,.45);font-family:'Montserrat',sans-serif;text-align:center;width:100%;">Skincare · Actives · Seed Oils</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+============================================================ -->
+<section id="testimonials">
+  <div class="container">
+    <div class="gold-line fade-up"></div>
+    <h2 class="section-title fade-up">What Clients <span>Say</span></h2>
+    <p class="section-sub fade-up delay-1">Trusted by entrepreneurs, beauty brands, and cosmetic professionals across Africa.</p>
+
+    <div class="testimonials-wrap fade-up delay-2">
+      <div class="testimonials-track" id="testimonialTrack">
+        <!-- Slide 1 -->
+        <div class="testimonial-slide">
+          <div class="testimonial-card">
+            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+            <p class="testimonial-text">
+              "Formulators Hub transformed our skincare idea into a world-class product line. Their attention to formulation detail and understanding of African skin tones is unmatched. We launched six SKUs within four months!"
+            </p>
+            <div class="testimonial-author">
+              <img class="author-avatar"
+                   src="https://randomuser.me/api/portraits/women/44.jpg"
+                   alt="Amara Nakato" />
+              <div class="author-info">
+                <strong>Amara Nakato</strong>
+                <span>Founder, GlowAfrica Beauty</span>
+                <div class="stars">★★★★★</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="testimonial-slide">
+          <div class="testimonial-card">
+            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+            <p class="testimonial-text">
+              "The formulation training programme completely changed my career. I went from zero knowledge to launching my own natural haircare range in just three months. The instructors are patient, knowledgeable, and inspiring."
+            </p>
+            <div class="testimonial-author">
+              <img class="author-avatar"
+                   src="https://randomuser.me/api/portraits/men/32.jpg"
+                   alt="Brian Otieno" />
+              <div class="author-info">
+                <strong>Brian Otieno</strong>
+                <span>Graduate Trainee & Entrepreneur, Nairobi</span>
+                <div class="stars">★★★★★</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 3 -->
+        <div class="testimonial-slide">
+          <div class="testimonial-card">
+            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+            <p class="testimonial-text">
+              "As a pharmacist venturing into cosmetics, I needed scientific credibility. Formulators Hub provided exactly that — rigorous stability testing, INCI labelling support, and a formulation I am proud to put my name on."
+            </p>
+            <div class="testimonial-author">
+              <img class="author-avatar"
+                   src="https://randomuser.me/api/portraits/women/68.jpg"
+                   alt="Dr Fatuma Ssebbi" />
+              <div class="author-info">
+                <strong>Dr Fatuma Ssebbi</strong>
+                <span>Pharmacist & Brand Owner, Kampala</span>
+                <div class="stars">★★★★★</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+        <div class="carousel-dots" id="carouselDots">
+          <button class="carousel-dot active" data-index="0"></button>
+          <button class="carousel-dot" data-index="1"></button>
+          <button class="carousel-dot" data-index="2"></button>
+        </div>
+        <button class="carousel-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+============================================================ -->
+<section id="contact">
+  <div class="container">
+    <div class="gold-line fade-up"></div>
+    <h2 class="section-title fade-up">Get In <span>Touch</span></h2>
+    <p class="section-sub fade-up delay-1">Ready to start your formulation journey? We'd love to hear from you.</p>
+
+    <div class="contact-grid">
+      <!-- Info -->
+      <div class="contact-info fade-up delay-1">
+        <p>Whether you have a product idea, need training information, or want a brand consultation, our team of cosmetic scientists is ready to guide you every step of the way.</p>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <strong>Address</strong>
+            <span>Nabweru Heights, Nabweru, Nansana, Kampala</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><i class="fas fa-envelope"></i></div>
+          <div>
+            <strong>Email</strong>
+            <span>info@formulatorshub.ug</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><i class="fas fa-phone"></i></div>
+          <div>
+            <strong>Phone / WhatsApp</strong>
+            <span>+256 708 134 095 &nbsp;|&nbsp; +256 787 799 364</span>
+          </div>
+        </div>
+        <div class="map-wrap">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255282.3586765649!2d32.47274724999999!3d0.3475963!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177dbc0f90b68327%3A0x501485494a82b07!2sKampala%2C%20Uganda!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            title="Kampala, Uganda map">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="fade-up delay-2">
+        <div class="contact-form">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Your full name" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label for="service">Service Interest</label>
+            <select id="service">
+              <option value="">— Select a service —</option>
+              <option>Product Development</option>
+              <option>Brand Consultancy</option>
+              <option>Packaging Design</option>
+              <option>Formulation Training</option>
+              <option>Other / General Enquiry</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Tell us about your project or question…"></textarea>
+          </div>
+          <div class="form-success" id="formSuccess">
+            <i class="fas fa-check-circle"></i> Thank you! We'll be in touch within 24 hours.
+          </div>
+          <button class="btn btn-gold" style="align-self:flex-start;" onclick="submitForm()">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Brand -->
+      <div class="footer-brand">
+        <a href="#hero" class="logo">
+          <div class="logo-icon"><i class="fas fa-flask"></i></div>
+          <div class="logo-text">
+            <strong>Formulators Hub</strong>
+            <span>Uganda · Cosmetic Science</span>
+          </div>
+        </a>
+        <p>Innovating skincare formulation in Africa — empowering brands with science, one formulation at a time.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://wa.me/256708134095" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://tiktok.com/@formulator2hubug" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="javascript:void(0)" onclick="openShopPage()">Shop</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <!-- Services -->
+      <div class="footer-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="#services">Product Development</a></li>
+          <li><a href="#services">Brand Consultancy</a></li>
+          <li><a href="#services">Packaging Design</a></li>
+          <li><a href="#services">Formulation Training</a></li>
+        </ul>
+      </div>
+      <!-- Contact -->
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:info@formulatorshub.ug">info@formulatorshub.ug</a></li>
+          <li><a href="tel:+256708134095">+256 708 134 095</a></li>
+          <li><a href="tel:+256787799364">+256 787 799 364</a></li>
+          <li><span style="color:rgba(255,255,255,.5)">Kampala, Uganda</span></li>
+          <li><a href="https://tiktok.com/@formulator2hubug" target="_blank">TikTok: @formulator2hubug</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Formulators Hub Uganda. All rights reserved.</p>
+      <p>Designed with <i class="fas fa-heart" style="color:var(--gold)"></i> for African innovation.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     SERVICE MODALS
+============================================================ -->
+
+<!-- Modal: Product Development -->
+<div class="modal-overlay" id="modal-dev">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div class="modal-icon"><i class="fas fa-flask"></i></div>
+        <div>
+          <h3>Product Development</h3>
+          <span>From concept to finished formula</span>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-dev')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <p>Our cosmetic chemists work with you from initial concept brief through to final batch manufacturing sign-off — ensuring your product is safe, stable, and effective.</p>
+      <ul class="modal-features">
+        <li><i class="fas fa-check"></i> Custom formulation of skincare, haircare & body care</li>
+        <li><i class="fas fa-check"></i> African botanical ingredient sourcing & integration</li>
+        <li><i class="fas fa-check"></i> Stability and safety testing coordination</li>
+        <li><i class="fas fa-check"></i> INCI labelling & regulatory compliance support</li>
+        <li><i class="fas fa-check"></i> Scalable pilot batch to commercial scale</li>
+      </ul>
+      <div style="margin-top:1.5rem">
+        <a href="#contact" class="btn btn-gold" onclick="closeModal('modal-dev')">
+          <i class="fas fa-paper-plane"></i> Start a Project
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Brand Consultancy -->
+<div class="modal-overlay" id="modal-consult">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div class="modal-icon"><i class="fas fa-atom"></i></div>
+        <div>
+          <h3>Brand Consultancy</h3>
+          <span>Strategic support for beauty brands</span>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-consult')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <p>We help entrepreneurs and established companies build credible, market-ready cosmetic brands backed by science and consumer insight.</p>
+      <ul class="modal-features">
+        <li><i class="fas fa-check"></i> Brand positioning & identity strategy</li>
+        <li><i class="fas fa-check"></i> Market research & competitive analysis</li>
+        <li><i class="fas fa-check"></i> Regulatory roadmap for EAC & international markets</li>
+        <li><i class="fas fa-check"></i> Supplier & manufacturer network access</li>
+        <li><i class="fas fa-check"></i> Go-to-market launch planning</li>
+      </ul>
+      <div style="margin-top:1.5rem">
+        <a href="#contact" class="btn btn-gold" onclick="closeModal('modal-consult')">
+          <i class="fas fa-paper-plane"></i> Book a Consultation
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Packaging Design -->
+<div class="modal-overlay" id="modal-pkg">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div class="modal-icon"><i class="fas fa-tint"></i></div>
+        <div>
+          <h3>Packaging Design</h3>
+          <span>Memorable, shelf-ready presentation</span>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-pkg')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <p>Great products deserve great packaging. We design primary and secondary packaging that captures your brand essence and meets international standards.</p>
+      <ul class="modal-features">
+        <li><i class="fas fa-check"></i> Structural & graphic design for cosmetic packaging</li>
+        <li><i class="fas fa-check"></i> Label design including legal & INCI requirements</li>
+        <li><i class="fas fa-check"></i> Sustainable & eco-friendly materials sourcing</li>
+        <li><i class="fas fa-check"></i> MOQ negotiation with packaging suppliers</li>
+        <li><i class="fas fa-check"></i> Print-ready artwork & 3D mockups</li>
+      </ul>
+      <div style="margin-top:1.5rem">
+        <a href="#contact" class="btn btn-gold" onclick="closeModal('modal-pkg')">
+          <i class="fas fa-paper-plane"></i> Get a Design Quote
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Formulation Training -->
+<div class="modal-overlay" id="modal-train">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div class="modal-icon"><i class="fas fa-cogs"></i></div>
+        <div>
+          <h3>Formulation Training</h3>
+          <span>Hands-on cosmetic science education</span>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-train')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <p>Our internationally recognised training programmes equip beauty entrepreneurs, salon professionals, and aspiring cosmetic chemists with practical formulation skills.</p>
+      <ul class="modal-features">
+        <li><i class="fas fa-check"></i> Beginner to Advanced formulation workshops</li>
+        <li><i class="fas fa-check"></i> Natural & organic cosmetics masterclass</li>
+        <li><i class="fas fa-check"></i> Online & in-person options available</li>
+        <li><i class="fas fa-check"></i> Certificate of completion issued</li>
+        <li><i class="fas fa-check"></i> Post-training business mentorship</li>
+      </ul>
+      <div style="margin-top:1.5rem">
+        <a href="#contact" class="btn btn-gold" onclick="closeModal('modal-train')">
+          <i class="fas fa-graduation-cap"></i> Join a Course
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+  /* ---- SHOP PAGE ---- */
+  function openShopPage() {
+    document.getElementById('shop-page').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // Re-trigger fade-up animations inside shop page
+    document.querySelectorAll('#shop-page .fade-up').forEach(el => {
+      el.classList.remove('visible');
+      setTimeout(() => el.classList.add('visible'), 80);
+    });
+  }
+  function closeShopPage() {
+    document.getElementById('shop-page').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* ---- SHOP TABS ---- */
+  document.querySelectorAll('.shop-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.shop-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.panel).classList.add('active');
+    });
+  });
+
+  /* ---- NAVBAR ---- */
+  const navbar  = document.getElementById('navbar');
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  /* ---- FADE-IN ON SCROLL ---- */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  /* ---- PORTFOLIO FILTER ---- */
+  function applyPortfolioFilter(filter) {
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.filter === filter);
+    });
+    document.querySelectorAll('.portfolio-item').forEach(item => {
+      const match = filter === 'all' || item.dataset.cat === filter;
+      item.classList.toggle('hidden', !match);
+    });
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyPortfolioFilter(btn.dataset.filter));
+  });
+
+  // Dropdown nav portfolio filter links
+  document.querySelectorAll('[data-portfolio-filter]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const filter = link.dataset.portfolioFilter;
+      document.querySelector('#portfolio').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => applyPortfolioFilter(filter), 400);
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  /* ---- TESTIMONIALS CAROUSEL ---- */
+  const track = document.getElementById('testimonialTrack');
+  const dots   = document.querySelectorAll('.carousel-dot');
+  let current  = 0;
+  const total  = 3;
+  let autoTimer;
+
+  function goTo(index) {
+    current = (index + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', () => { goTo(current - 1); resetAuto(); });
+  document.getElementById('nextBtn').addEventListener('click', () => { goTo(current + 1); resetAuto(); });
+  dots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.index); resetAuto(); }));
+
+  function resetAuto() { clearInterval(autoTimer); autoTimer = setInterval(() => goTo(current + 1), 5000); }
+  resetAuto();
+
+  /* ---- SERVICE MODALS ---- */
+  document.querySelectorAll('[data-modal]').forEach(card => {
+    card.addEventListener('click', () => {
+      document.getElementById(card.dataset.modal).classList.add('open');
+    });
+  });
+
+  // Dropdown service links
+  document.querySelectorAll('[data-modal-trigger]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = link.dataset.modalTrigger;
+      document.querySelector('#services').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => document.getElementById(target).classList.add('open'), 500);
+    });
+  });
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+  }
+  // Close on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.classList.remove('open');
+    });
+  });
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+      closeShopPage();
+    }
+  });
+
+  /* ---- CONTACT FORM ---- */
+  function submitForm() {
+    const name    = document.getElementById('name').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    if (!name || !email || !message) {
+      alert('Please fill in your name, email, and message.');
+      return;
+    }
+    const success = document.getElementById('formSuccess');
+    success.style.display = 'flex';
+    success.style.alignItems = 'center';
+    success.style.gap = '.5rem';
+    // reset fields
+    ['name','email','message'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('service').value = '';
+    setTimeout(() => { success.style.display = 'none'; }, 5000);
+  }
+</script>
+</body>
+</html>
