@@ -535,7 +535,10 @@
     }
     .testimonial-author { display: flex; align-items: center; gap: 1rem; }
     .author-avatar {
-      width: 52px; height: 52px; border-radius: 50%;
+      width: 52px; height: 52px;
+      min-width: 52px; min-height: 52px;
+      flex-shrink: 0;
+      border-radius: 50%;
       object-fit: cover;
       border: 2px solid var(--gold);
     }
@@ -847,6 +850,8 @@
     .product-price span { font-size: .7rem; color: var(--text-light); font-weight: 400; }
     .order-btn {
       width: 34px; height: 34px;
+      min-width: 34px; min-height: 34px;
+      flex-shrink: 0;
       background: linear-gradient(135deg, var(--gold), var(--gold-light));
       border-radius: 50%; border: none; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
